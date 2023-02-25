@@ -304,7 +304,7 @@ def parse_args(raw_args: List[str]):
         "--fork-retry",
         type=int,
         default=1,
-        help="Specify the number of retries when forking --fork-network; defaults to 1",
+        help="Specify the number of retries of failed HTTP requests sent to the network before giving up, set to -1 for unlimited retries, defaults to 1",
     )
     parser.add_argument(
         "--chain-id",
