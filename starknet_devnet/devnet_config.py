@@ -137,12 +137,12 @@ def _parse_account_class(class_path: str) -> ContractClassWrapper:
     return ContractClassWrapper(contract_class, class_hash_bytes)
 
 
-def _get_feeder_gateway_client(url: str, block_id: str):
+def _get_feeder_gateway_client(url: str, block_id: str, n_retries: int = 1):
     """Construct a feeder gateway client at url and block"""
 
     feeder_gateway_client = FeederGatewayClient(
         url=url,
-        retry_config=RetryConfig(n_retries=1),
+        retry_config=RetryConfig(n_retries=n_retries),
     )
 
     try:
@@ -301,6 +301,12 @@ def parse_args(raw_args: List[str]):
         help="Specify the block number where the --fork-network is forked; defaults to latest",
     )
     parser.add_argument(
+        "--fork-retry",
+        type=int,
+        default=1,
+        help="Specify the number of retries when forking --fork-network; defaults to 1",
+    )
+    parser.add_argument(
         "--chain-id",
         type=_chain_id,
         default=StarknetChainId.TESTNET,
@@ -327,7 +333,7 @@ def parse_args(raw_args: List[str]):
     if parsed_args.fork_network:
         parsed_args.fork_block = parsed_args.fork_block or "latest"
         parsed_args.fork_network, parsed_args.fork_block = _get_feeder_gateway_client(
-            parsed_args.fork_network, parsed_args.fork_block
+            parsed_args.fork_network, parsed_args.fork_block, parsed_args.fork_retry
         )
 
     return parsed_args
