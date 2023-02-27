@@ -186,6 +186,24 @@ class NonNegativeAction(argparse.Action):
         setattr(namespace, self.dest, value)
 
 
+class ForkRetriesAction(argparse.Action):
+    """
+    Action for parsing the --fork-retries int argument, it should be -1, 0 or positive int.
+    """
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        error_msg = f"argument {option_string} must be either a positive int or equals to -1; got: {values}."
+        try:
+            value = int(values)
+        except ValueError:
+            parser.error(error_msg)
+
+        if not (value > 0 or value == -1):
+            parser.error(error_msg)
+
+        setattr(namespace, self.dest, value)
+
+
 def parse_args(raw_args: List[str]):
     """
     Parses CLI arguments.
@@ -301,9 +319,10 @@ def parse_args(raw_args: List[str]):
         help="Specify the block number where the --fork-network is forked; defaults to latest",
     )
     parser.add_argument(
-        "--fork-retry",
+        "--fork-retries",
         type=int,
         default=1,
+        action=ForkRetriesAction,
         help="Specify the number of retries of failed HTTP requests sent to the network before giving up, set to -1 for unlimited retries, defaults to 1",
     )
     parser.add_argument(
@@ -333,7 +352,7 @@ def parse_args(raw_args: List[str]):
     if parsed_args.fork_network:
         parsed_args.fork_block = parsed_args.fork_block or "latest"
         parsed_args.fork_network, parsed_args.fork_block = _get_feeder_gateway_client(
-            parsed_args.fork_network, parsed_args.fork_block, parsed_args.fork_retry
+            parsed_args.fork_network, parsed_args.fork_block, parsed_args.fork_retries
         )
 
     return parsed_args
@@ -359,7 +378,6 @@ class DevnetConfig:
         self.hide_predeployed_accounts = self.args.hide_predeployed_accounts
         self.fork_network = self.args.fork_network
         self.fork_block = self.args.fork_block
-        self.fork_retries = self.args.fork_retries
         self.chain_id = self.args.chain_id
         self.validate_rpc_requests = not self.args.disable_rpc_request_validation
         self.validate_rpc_responses = not self.args.disable_rpc_response_validation
