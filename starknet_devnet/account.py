@@ -11,9 +11,10 @@ from starkware.starknet.testing.starknet import Starknet
 
 from starknet_devnet.account_util import set_balance
 from starknet_devnet.contract_class_wrapper import ContractClassWrapper
+from starknet_devnet.predeployed_contract_wrapper import PredeployedContractWrapper
 
 
-class Account:
+class Account(PredeployedContractWrapper):
     """Account contract wrapper."""
 
     # pylint: disable=too-many-arguments

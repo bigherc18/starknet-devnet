@@ -5,8 +5,10 @@ from starkware.solidity.utils import load_nearby_contract
 from starkware.starknet.services.api.contract_class import ContractClass
 from starkware.starknet.testing.starknet import Starknet
 
+from starknet_devnet.predeployed_contract_wrapper import PredeployedContractWrapper
 
-class UDC:
+
+class UDC(PredeployedContractWrapper):
     """Universal deployer contract wrapper class"""
 
     CONTRACT_CLASS: ContractClass = None  # loaded lazily
