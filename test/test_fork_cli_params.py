@@ -139,7 +139,7 @@ def test_valid_block_ids(fork_block: str):
     assert proc.returncode == 0
 
 
-@pytest.mark.parametrize("fork_retries", ["-2", "0"])
+@pytest.mark.parametrize("fork_retries", ["-1", "0"])
 def test_out_of_range_fork_retries(fork_retries: str):
     """Should exit if provided with a negative block number"""
     proc = ACTIVE_DEVNET.start(
@@ -152,7 +152,7 @@ def test_out_of_range_fork_retries(fork_retries: str):
     )
     assert read_stream(proc.stdout) == ""
     assert (
-        f"error: argument --fork-retries must be either a positive int or equals to -1; got: {fork_retries}.\n"
+        f"error: argument --fork-retries must be a positive integer; got: {fork_retries}.\n"
         in read_stream(proc.stderr)
     )
 
@@ -179,12 +179,12 @@ def test_invalid_fork_retries():
 
     assert proc.returncode == 2
 
+
 @pytest.mark.parametrize(
     "fork_retries",
     [
         "1",
         "3",
-        "-1",
     ],
 )
 def test_valid_fork_retries(fork_retries: str):

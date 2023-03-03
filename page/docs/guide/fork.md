@@ -14,7 +14,7 @@ The value of `--fork-network` can either be a network name (`alpha-goerli`, `alp
 
 The `--fork-block` parameter is optional and its value should be the block number from which the forking is done. If none is provided, defaults to the `"latest"` block at the time of Devnet's start-up.
 
-You can use the `--fork-retries` parameter to specify the number of retries of failed HTTP requests sent to the network before giving up, set to `-1` for unlimited retries, defaults to `1`
+You can use the `--fork-retries` parameter to specify the number of retries of failed HTTP requests sent to the network before giving up, defaults to `1`
 
 All calls will first try Devnet's state and then fall back to the forking block.
 

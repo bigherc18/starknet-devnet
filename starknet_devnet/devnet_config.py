@@ -186,19 +186,21 @@ class NonNegativeAction(argparse.Action):
         setattr(namespace, self.dest, value)
 
 
-class ForkRetriesAction(argparse.Action):
+class PositiveAction(argparse.Action):
     """
-    Action for parsing the --fork-retries int argument, it should be -1, 0 or positive int.
+    Action for parsing positive int argument;
     """
 
     def __call__(self, parser, namespace, values, option_string=None):
-        error_msg = f"argument {option_string} must be either a positive int or equals to -1; got: {values}."
+        error_msg = (
+            f"argument {option_string} must be a positive integer; got: {values}."
+        )
         try:
             value = int(values)
         except ValueError:
             parser.error(error_msg)
 
-        if not (value > 0 or value == -1):
+        if value <= 0:
             parser.error(error_msg)
 
         setattr(namespace, self.dest, value)
@@ -322,8 +324,8 @@ def parse_args(raw_args: List[str]):
         "--fork-retries",
         type=int,
         default=1,
-        action=ForkRetriesAction,
-        help="Specify the number of retries of failed HTTP requests sent to the network before giving up, set to -1 for unlimited retries, defaults to 1",
+        action=PositiveAction,
+        help="Specify the number of retries of failed HTTP requests sent to the network before giving up, defaults to 1",
     )
     parser.add_argument(
         "--chain-id",

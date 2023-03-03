@@ -48,7 +48,7 @@ optional arguments:
   --fork-block FORK_BLOCK
                         Specify the block number where the --fork-network is forked; defaults to latest
   --fork-retries FORK_RETRIES
-                        Specify the number of retries of failed HTTP requests sent to the network before giving up, set to -1 for unlimited retries, defaults to 1
+                        Specify the number of retries of failed HTTP requests sent to the network before giving up, defaults to 1
   --chain-id CHAIN_ID   Specify the chain id as string: {MAINNET, TESTNET, TESTNET2}
   --disable-rpc-request-validation
                         Disable requests schema validation for RPC endpoints
