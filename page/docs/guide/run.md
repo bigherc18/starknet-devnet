@@ -14,7 +14,7 @@ usage: starknet-devnet [-h] [-v] [--host HOST] [--port PORT] [--load-path LOAD_P
                        [--fork-retries FORK_RETRIES] [--chain-id CHAIN_ID] [--disable-rpc-request-validation]
                        [--disable-rpc-response-validation]
 
-Run a local instance of StarkNet Devnet
+Run a local instance of Starknet Devnet
 
 optional arguments:
   -h, --help            show this help message and exit
