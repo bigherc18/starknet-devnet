@@ -34,14 +34,3 @@ class UDC(PredeployedContractWrapper):
                 load_nearby_contract("UDC_OZ_0.5.0")
             )
         return cls.CONTRACT_CLASS
-
-    async def deploy(self):
-        """Deploy token contract for charging fees."""
-        starknet: Starknet = self.starknet_wrapper.starknet
-        contract_class = UDC.get_contract_class()
-
-        await starknet.state.state.set_contract_class(UDC.HASH_BYTES, contract_class)
-
-        # pylint: disable=protected-access
-        starknet.state.state.cache._class_hash_writes[UDC.ADDRESS] = UDC.HASH_BYTES
-        # replace with await starknet.state.state.deploy_contract

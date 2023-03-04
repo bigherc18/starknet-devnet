@@ -48,22 +48,8 @@ class FeeToken(PredeployedContractWrapper):
             )
         return cls.CONTRACT_CLASS
 
-    async def deploy(self):
-        """Deploy token contract for charging fees."""
+    async def mimic_constructor(self):
         starknet: Starknet = self.starknet_wrapper.starknet
-        contract_class = FeeToken.get_contract_class()
-
-        await starknet.state.state.set_contract_class(
-            FeeToken.HASH_BYTES, contract_class
-        )
-
-        # pylint: disable=protected-access
-        starknet.state.state.cache._class_hash_writes[
-            FeeToken.ADDRESS
-        ] = FeeToken.HASH_BYTES
-        # replace with await starknet.state.state.deploy_contract
-
-        # mimic constructor
         await starknet.state.state.set_storage_at(
             FeeToken.ADDRESS,
             get_selector_from_name("ERC20_name"),
@@ -83,13 +69,6 @@ class FeeToken(PredeployedContractWrapper):
             FeeToken.ADDRESS,
             get_selector_from_name("Ownable_owner"),
             ChargeableAccount.ADDRESS,
-        )
-
-        self.contract = StarknetContract(
-            state=starknet.state,
-            abi=contract_class.abi,
-            contract_address=FeeToken.ADDRESS,
-            deploy_call_info=None,
         )
 
     async def get_balance(self, address: int) -> int:

@@ -51,14 +51,8 @@ class Account(PredeployedContractWrapper):
             "address": hex(self.address),
         }
 
-    async def deploy(self) -> StarknetContract:
-        """Deploy this account and set its balance."""
+    async def mimic_constructor(self):
         starknet: Starknet = self.starknet_wrapper.starknet
-        contract_class = self.contract_class
-        await starknet.state.state.set_contract_class(
-            self.class_hash_bytes, contract_class
-        )
-        await starknet.state.state.deploy_contract(self.address, self.class_hash_bytes)
 
         await starknet.state.state.set_storage_at(
             self.address, get_selector_from_name("Account_public_key"), self.public_key
