@@ -62,7 +62,17 @@ class PredeployedContractWrapper(ABC):
     def contract_class(self, contract_class):
         self._contract_class = contract_class
 
-    async def deploy_contract(self):
+    async def mimic_constructor(self):
+        pass
+
+    async def deploy(self):
+        """Deploy the contract wrapper to devnet"""
+        starknet: Starknet = self.starknet_wrapper.starknet
+
+        await starknet.state.state.set_contract_class(
+            self.class_hash_bytes, self.contract_class
+        )
+
         # pylint: disable=protected-access
         starknet: Starknet = self.starknet_wrapper.starknet
         starknet.state.state.cache._class_hash_writes[
@@ -76,19 +86,6 @@ class PredeployedContractWrapper(ABC):
         # Requested contract address
         # 0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7
         # is unavailable for deployment
-
-    async def mimic_constructor(self):
-        pass
-
-    async def deploy(self):
-        """Deploy the contract wrapper to devnet"""
-        starknet: Starknet = self.starknet_wrapper.starknet
-
-        await starknet.state.state.set_contract_class(
-            self.class_hash_bytes, self.contract_class
-        )
-
-        await self.deploy_contract()
 
         await self.mimic_constructor()
 
