@@ -1,9 +1,9 @@
 """Parent for predeployed contract wrapper classes"""
 from abc import ABC, abstractmethod
 
-from starkware.starknet.testing.starknet import Starknet
 from starkware.starknet.services.api.contract_class import ContractClass
 from starkware.starknet.testing.contract import StarknetContract
+from starkware.starknet.testing.starknet import Starknet
 
 
 class PredeployedContractWrapper(ABC):

@@ -27,12 +27,10 @@ class FeeToken(PredeployedContractWrapper):
     # HASH = to_bytes(compute_class_hash(contract_class=FeeToken.get_contract_class()))
     HASH = 0x6A22BF63C7BC07EFFA39A25DFBD21523D211DB0100A0AFD054D172B81840EAF
     HASH_BYTES = to_bytes(HASH)
-    class_hash_bytes = HASH_BYTES
 
     # Taken from
     # https://github.com/starknet-community-libs/starknet-addresses/blob/df19b17d2c83f11c30e65e2373e8a0c65446f17c/bridged_tokens/goerli.json
     ADDRESS = 0x49D36570D4E46F48E99674BD3FCC84644DDD6B96F7C741B1562B82F9E004DC7
-    address = ADDRESS
     SYMBOL = "ETH"
     NAME = "ether"
 
@@ -40,6 +38,8 @@ class FeeToken(PredeployedContractWrapper):
 
     def __init__(self, starknet_wrapper):
         self.starknet_wrapper = starknet_wrapper
+        self.address = self.ADDRESS
+        self.class_hash_bytes = self.HASH_BYTES
 
     @classmethod
     def get_contract_class(cls):
