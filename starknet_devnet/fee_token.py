@@ -27,10 +27,12 @@ class FeeToken(PredeployedContractWrapper):
     # HASH = to_bytes(compute_class_hash(contract_class=FeeToken.get_contract_class()))
     HASH = 0x6A22BF63C7BC07EFFA39A25DFBD21523D211DB0100A0AFD054D172B81840EAF
     HASH_BYTES = to_bytes(HASH)
+    class_hash_bytes = HASH_BYTES
 
     # Taken from
     # https://github.com/starknet-community-libs/starknet-addresses/blob/df19b17d2c83f11c30e65e2373e8a0c65446f17c/bridged_tokens/goerli.json
     ADDRESS = 0x49D36570D4E46F48E99674BD3FCC84644DDD6B96F7C741B1562B82F9E004DC7
+    address = ADDRESS
     SYMBOL = "ETH"
     NAME = "ether"
 
@@ -47,6 +49,10 @@ class FeeToken(PredeployedContractWrapper):
                 load_nearby_contract("ERC20_Mintable_OZ_0.2.0")
             )
         return cls.CONTRACT_CLASS
+
+    @property
+    def contract_class(self) -> ContractClass:
+        return self.get_contract_class()
 
     async def _mimic_constructor(self):
         starknet: Starknet = self.starknet_wrapper.starknet

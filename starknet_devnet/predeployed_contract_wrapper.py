@@ -12,55 +12,10 @@ class PredeployedContractWrapper(ABC):
     # Cannot import it because of circular imports
     # from .starknet_wrapper import StarknetWrapper
 
-    starknet_wrapper = NotImplemented
-
-    @property
-    def address(self) -> int:
-        try:
-            return self.ADDRESS
-        except AttributeError:
-            try:
-                return self._address
-            except AttributeError:
-                raise NotImplementedError(
-                    "Predeployed contracts should provide an address attribute or an ADDRESS class attribute"
-                )
-
-    @address.setter
-    def address(self, address: int):
-        self._address = address
-
-    @property
-    def class_hash_bytes(self) -> bytes:
-        try:
-            return self._class_hash_bytes
-        except AttributeError:
-            try:
-                return self.HASH_BYTES
-            except AttributeError:
-                raise NotImplementedError(
-                    "Predeployed contracts should provide a class_hash_bytes attribute or a HASH_BYTES class attribute"
-                )
-
-    @class_hash_bytes.setter
-    def class_hash_bytes(self, class_hash_bytes: bytes):
-        self._class_hash_bytes = class_hash_bytes
-
-    @property
-    def contract_class(self) -> ContractClass:
-        try:
-            return self._contract_class
-        except AttributeError:
-            try:
-                return self.get_contract_class()
-            except AttributeError:
-                raise NotImplementedError(
-                    "Predeployed contracts should provide a contract_class attribute or get_contract_class method"
-                )
-
-    @contract_class.setter
-    def contract_class(self, contract_class):
-        self._contract_class = contract_class
+    starknet_wrapper: "StarknetWrapper"
+    address: int
+    class_hash_bytes: bytes
+    contract_class: ContractClass
 
     async def _mimic_constructor(self):
         raise NotImplementedError()
