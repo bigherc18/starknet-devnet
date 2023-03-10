@@ -34,3 +34,6 @@ class UDC(PredeployedContractWrapper):
                 load_nearby_contract("UDC_OZ_0.5.0")
             )
         return cls.CONTRACT_CLASS
+
+    async def _mimic_constructor(self):
+        pass

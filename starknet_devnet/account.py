@@ -51,7 +51,7 @@ class Account(PredeployedContractWrapper):
             "address": hex(self.address),
         }
 
-    async def mimic_constructor(self):
+    async def _mimic_constructor(self):
         starknet: Starknet = self.starknet_wrapper.starknet
 
         await starknet.state.state.set_storage_at(

@@ -62,8 +62,8 @@ class PredeployedContractWrapper(ABC):
     def contract_class(self, contract_class):
         self._contract_class = contract_class
 
-    async def mimic_constructor(self):
-        pass
+    async def _mimic_constructor(self):
+        raise NotImplementedError()
 
     async def deploy(self):
         """Deploy the contract wrapper to devnet"""
@@ -87,7 +87,7 @@ class PredeployedContractWrapper(ABC):
         # 0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7
         # is unavailable for deployment
 
-        await self.mimic_constructor()
+        await self._mimic_constructor()
 
         self.contract = StarknetContract(
             state=starknet.state,
