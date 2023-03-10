@@ -7,7 +7,6 @@ from starkware.solidity.utils import load_nearby_contract
 from starkware.starknet.compiler.compile import get_selector_from_name
 from starkware.starknet.services.api.contract_class import ContractClass
 from starkware.starknet.services.api.gateway.transaction import InvokeFunction
-from starkware.starknet.testing.contract import StarknetContract
 from starkware.starknet.testing.starknet import Starknet
 
 from starknet_devnet.account_util import get_execute_args
@@ -34,8 +33,6 @@ class FeeToken(PredeployedContractWrapper):
     SYMBOL = "ETH"
     NAME = "ether"
 
-    contract: StarknetContract = None
-
     def __init__(self, starknet_wrapper):
         self.starknet_wrapper = starknet_wrapper
         self.address = self.ADDRESS
@@ -52,6 +49,7 @@ class FeeToken(PredeployedContractWrapper):
 
     @property
     def contract_class(self) -> ContractClass:
+        """Same as `get_contract_class`, used by `PredeployedContractWrapper` parent"""
         return self.get_contract_class()
 
     async def _mimic_constructor(self):

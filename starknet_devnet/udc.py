@@ -3,7 +3,6 @@
 from starkware.python.utils import to_bytes
 from starkware.solidity.utils import load_nearby_contract
 from starkware.starknet.services.api.contract_class import ContractClass
-from starkware.starknet.testing.starknet import Starknet
 
 from starknet_devnet.predeployed_contract_wrapper import PredeployedContractWrapper
 
@@ -39,6 +38,7 @@ class UDC(PredeployedContractWrapper):
 
     @property
     def contract_class(self) -> ContractClass:
+        """Same as `get_contract_class`, used by `PredeployedContractWrapper` parent"""
         return self.get_contract_class()
 
     async def _mimic_constructor(self):

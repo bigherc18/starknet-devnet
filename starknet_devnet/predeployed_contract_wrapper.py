@@ -1,5 +1,5 @@
 """Parent for predeployed contract wrapper classes"""
-from abc import ABC, abstractmethod
+from abc import ABC
 
 from starkware.starknet.services.api.contract_class import ContractClass
 from starkware.starknet.testing.contract import StarknetContract
@@ -16,6 +16,9 @@ class PredeployedContractWrapper(ABC):
     address: int
     class_hash_bytes: bytes
     contract_class: ContractClass
+
+    # Value will be set by deploy
+    contract: StarknetContract
 
     async def _mimic_constructor(self):
         raise NotImplementedError()
